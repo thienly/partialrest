@@ -1,0 +1,156 @@
+{
+    "GenerateReadyBinItemModel": {
+      "type": "object",
+      "properties": {
+        "Id": {
+          "format": "int64",
+          "type": "integer",
+          "x-nullable": false
+        },
+        "BinCode": {
+          "type": "string",
+          "x-nullable": false
+        },
+        "BinType": {
+          "format": "int32",
+          "type": "integer",
+          "x-nullable": false
+        },
+        "SkuItems": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/A"
+          },
+          "readOnly": true,
+          "x-nullable": false
+        },
+        "ProductItems": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GenerateReadyBinProductItemModel"
+          },
+          "x-nullable": false
+        }
+      },
+      "x-nullable": false
+    },
+    "A": {
+      "type": "A",
+      "properties": {
+        "Sku": {
+          "type": "string",
+          "x-nullable": false
+        },
+        "QtyPerCase": {
+          "format": "decimal",
+          "type": "number",
+          "x-nullable": false
+        },
+        "Count": {
+          "format": "int32",
+          "type": "integer",
+          "x-nullable": false
+        },
+        "Total": {
+          "format": "int32",
+          "type": "integer",
+          "x-nullable": false
+        },
+        "FailQty": {
+          "format": "decimal",
+          "type": "number",
+          "x-nullable": false
+        },
+        "FailSerialNos": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "x-nullable": false
+          },
+          "x-nullable": false
+        },
+        "Correct": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/B"
+            },
+            "x-nullable": false
+          }
+      },
+      "x-nullable": false
+    },    
+      "B": {
+        "type": "B",
+        "properties": {
+          "SerialNos": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "x-nullable": false
+            },
+            "x-nullable": false
+          },
+          "Sku": {
+            "type": "string",
+            "x-nullable": false
+          },
+          "ProductId": {
+            "format": "int64",
+            "type": "integer",
+            "x-nullable": false
+          },
+          "ClientId": {
+            "format": "int64",
+            "type": "integer",
+            "x-nullable": false
+          },
+          "Qty": {
+            "format": "decimal",
+            "type": "number",
+            "x-nullable": false
+          },
+          "Correct": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/C"
+            },
+            "x-nullable": false
+          }
+        },
+        "x-nullable": false
+      },
+      "C": {
+        "type": "C",
+        "properties": {
+          "SerialNos": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "x-nullable": false
+            },
+            "x-nullable": false
+          },
+          "Sku": {
+            "type": "string",
+            "x-nullable": false
+          },
+          "ProductId": {
+            "format": "int64",
+            "type": "integer",
+            "x-nullable": false
+          },
+          "ClientId": {
+            "format": "int64",
+            "type": "integer",
+            "x-nullable": false
+          },
+          "Qty": {
+            "format": "decimal",
+            "type": "number",
+            "x-nullable": false
+          }
+          
+        },
+        "x-nullable": false
+      }
+  }
