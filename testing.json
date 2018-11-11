@@ -24,11 +24,12 @@
           "readOnly": true,
           "x-nullable": false
         },
-        "ProductItems": {
+        "SkuItems1": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/GenerateReadyBinProductItemModel"
+            "$ref": "#/definitions/C"
           },
+          "readOnly": true,
           "x-nullable": false
         }
       },
@@ -36,39 +37,7 @@
     },
     "A": {
       "type": "A",
-      "properties": {
-        "Sku": {
-          "type": "string",
-          "x-nullable": false
-        },
-        "QtyPerCase": {
-          "format": "decimal",
-          "type": "number",
-          "x-nullable": false
-        },
-        "Count": {
-          "format": "int32",
-          "type": "integer",
-          "x-nullable": false
-        },
-        "Total": {
-          "format": "int32",
-          "type": "integer",
-          "x-nullable": false
-        },
-        "FailQty": {
-          "format": "decimal",
-          "type": "number",
-          "x-nullable": false
-        },
-        "FailSerialNos": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "x-nullable": false
-          },
-          "x-nullable": false
-        },
+      "properties": {       
         "Correct": {
             "type": "array",
             "items": {
@@ -82,33 +51,6 @@
       "B": {
         "type": "B",
         "properties": {
-          "SerialNos": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "x-nullable": false
-            },
-            "x-nullable": false
-          },
-          "Sku": {
-            "type": "string",
-            "x-nullable": false
-          },
-          "ProductId": {
-            "format": "int64",
-            "type": "integer",
-            "x-nullable": false
-          },
-          "ClientId": {
-            "format": "int64",
-            "type": "integer",
-            "x-nullable": false
-          },
-          "Qty": {
-            "format": "decimal",
-            "type": "number",
-            "x-nullable": false
-          },
           "Correct": {
             "type": "array",
             "items": {
@@ -122,28 +64,6 @@
       "C": {
         "type": "C",
         "properties": {
-          "SerialNos": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "x-nullable": false
-            },
-            "x-nullable": false
-          },
-          "Sku": {
-            "type": "string",
-            "x-nullable": false
-          },
-          "ProductId": {
-            "format": "int64",
-            "type": "integer",
-            "x-nullable": false
-          },
-          "ClientId": {
-            "format": "int64",
-            "type": "integer",
-            "x-nullable": false
-          },
           "Qty": {
             "format": "decimal",
             "type": "number",
