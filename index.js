@@ -1,85 +1,95 @@
-var diff = require('deep-diff');
-var observableDiff = require('deep-diff').observableDiff;
-var applyChange = require('deep-diff').applyChange;
 var _ = require('lodash');
 var fl = require('./readfile');
 var fs = require('fs');
-var JsDiff = require('diff');
-/**
-Extracting the detta and generate autorest based on that.
- */
+const argv = require('yargs').argv
+var axios = require('axios');
+const { exec } = require('child_process');
+const program = require('commander');
+program.version('0.0.1', "-v, --version")                
+        .description('Autorest generation with specific controller');
 
-var allModels = [];
+program.command('gen  <swaggerUrl> [controllerName...]')
+       .alias('g')
+       .description('Generate autorest')
+       .action((swaggerUrl, controllerName) => {
+         gen(controllerName,swaggerUrl)
+       });        
 
-var promise1 = fl.readFile('swagger1.json');
-var promise2 = fl.readFile('swagger2.json');
-var template = fs.readFileSync('template.json','utf-8');
+// program.on('--help', function(){
+//         console.log('');
+//         console.log('Examples:');
+//         console.log('');
+//         console.log('  $ custom-help --help');
+//         console.log('  $ custom-help -h');
+//     });
+program.parse(process.argv);
+if (!program.args.length) 
+  program.help();
 
-promise1.then(x=>{
-  promise2.then(y=>{    
-       var target = JSON.parse(template);  
-       var allModels=[];
-       var allPaths ={};   
-       observableDiff(x, y, function (d) {
-         
-           if (d.path.indexOf('paths') !== -1){
-            if (d.kind == 'N' || d.kind == 'E'){
-              let fullCtlr = d.path[d.path.length -1];              
-              let spl = fullCtlr.split('/');
-              let ctl = spl[spl.length - 2];
-              allPaths = _.transform(y.paths,function(result, value, key) {                
-                if (key.indexOf(ctl) !== -1){
-                  result[key] = value;    
-                }
-              }, {});      
-              for(let k in allPaths){
-                let p = allPaths[k];
-                if (p) {
-                  var refProperty = findProperty(p,'$ref');
-                  refProperty.forEach(i => {
-                     var model = getLastPart(i['$ref'],'/');
-                     var realModel = _.get(y,'definitions.'+ model);
-                     
-                     var pushedData = {};
-                     pushedData[model] = realModel;
-                     // find child references
-                     var refOfModels = _.uniq(findPropertyWithRecursion(_.get(y,'definitions'),realModel,'$ref'));
-                     refOfModels.forEach(i=>{
-                       //let name = getLastPart(i['$ref'],'/');
-                       let model = _.get(y,'definitions.'+ i);  
-                       let item = {};
-                       item[i]= model;
-                       allModels.push(item);
-                     });
-                     // end finding child references
-   
-                     allModels.push(pushedData);  
-                  });               
-                }
-              };                     
-            }} else if (d.kind == 'A'){
-              let path = _.join(d.path,'.');              
-              var rValue = _.get(y,path);
-              applyChange(target, y, d);        
-              _.set(target,path,rValue);
-           } else {                 
-            applyChange(target, y, d);        
-          }   
+
+function gen(ctls,swaggerUrl){  
+    axios({
+      method: 'get',
+      url: swaggerUrl, //'http://10.0.19.116:32133/swagger/v1/swagger.json',
+      responseType: 'stream'
+    })
+    .then((response)=>{  
+      response.data.pipe(fs.createWriteStream('data.json'));
+      response.data.on('end',function(d){
+          var template = fs.readFileSync('template.json','utf-8');
+          var target = JSON.parse(template);
+
+          fl.readFile('data.json').then(dt=>{
+          for(var key in dt.paths){
+
+            if (_.toLower(key).indexOf(_.toLower(ctls[0])) != -1) {
+              var value = dt.paths[key];
+              var allModels = [];
+              let n = {};
+              n[key] = value;
+              _.assign(target['paths'],n);
+              var refProperty = findProperty(value,'$ref');
+              refProperty.forEach(i => {
+                  var model = getLastPart(i['$ref'],'/');
+                  var realModel = _.get(dt,'definitions.'+ model);
+                  
+                  var pushedData = {};
+                  pushedData[model] = realModel;
+                  // find child references
+                  var refOfModels = _.uniq(findPropertyWithRecursion(_.get(dt,'definitions'),realModel,'$ref'));
+                  refOfModels.forEach(i=>{
+                    //let name = getLastPart(i['$ref'],'/');
+                    let model = _.get(dt,'definitions.'+ i);  
+                    let item = {};
+                    item[i]= model;
+                    allModels.push(item);
+                  });
+                  // end finding child references
+
+                  allModels.push(pushedData);  
+              }); 
+              allModels.forEach(i=>{
+                _.assign(target['definitions'],i)
+              });
+            }
+          }
+          console.log(JSON.stringify(target,null,4));
+          var result = fs.createWriteStream('result.json',{encoding:'utf-8'});    
+          result.write(JSON.stringify(target,null,4));
+          result.on('end',function(d){
+            result.end();
+          });          
+          exec('autorest --input-file=result.json  --csharp',function (error, stdout, stderr) {
+            console.log('stdout: ' + stdout);
+            console.log('stderr: ' + stderr);
+            if (error !== null) {
+                console.log('exec error: ' + error);
+            }
+          });
+        });
       });
-
-      allModels.forEach(i=>{
-        _.assign(target['definitions'],i)
-      });
-      _.assign(target['paths'],allPaths);
-      console.log(JSON.stringify(target,null,4));
-      
-      var file = fs.createWriteStream('result.json');
-      file.write(JSON.stringify(target,null,4));
-      file.end();          
-  });
-});
-
-
+    }); 
+}
 function findProperty(obj, key) {
   if (_.has(obj, key)) // or just (key in obj)
       return [obj];

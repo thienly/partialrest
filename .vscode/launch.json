@@ -9,7 +9,11 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}\\index.js"
+            "program": "${workspaceFolder}\\index.js",
+            "args": [
+                "--ctl=Aisle",
+                "--url=http://10.0.19.116:32133/swagger/v1/swagger.json"
+            ]
         }
     ]
 }

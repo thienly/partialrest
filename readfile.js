@@ -4,7 +4,7 @@ var fs = require('fs'),
 
 function readFile(fileName){
     var promise = new Promise(function(resolve,reject){
-      var swagger = function () {
+      var swagger = function () {        
         var stream = fs.createReadStream(fileName, {encoding: 'utf8',start:3}),
             parser = JSONStream.parse();
             return stream.pipe(parser);
