@@ -1,8 +1,8 @@
 {
   "name": "esrest",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "",
-  "main": "index.js",  
+  "main": "index.js",
   "scripts": {
     "start": "node index.js && autorest --input-file=result.json  --csharp",
     "test": "echo \"Error: no test specified\" && exit 1"
