@@ -346,6 +346,10 @@
                     "format": "int32",
                     "type": "integer",
                     "x-nullable": true
+                },
+                "Export": {
+                    "type": "boolean",
+                    "x-nullable": true
                 }
             },
             "x-nullable": false
@@ -441,6 +445,10 @@
                 "TotalRecord": {
                     "format": "int32",
                     "type": "integer",
+                    "x-nullable": true
+                },
+                "Export": {
+                    "type": "boolean",
                     "x-nullable": true
                 }
             },

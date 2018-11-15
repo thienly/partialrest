@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 var _ = require('lodash');
 var fl = require('./readfile');
 var fs = require('fs');
@@ -5,29 +6,51 @@ const argv = require('yargs').argv
 var axios = require('axios');
 const { exec } = require('child_process');
 const program = require('commander');
+const { prompt} = require('inquirer');
+const questions = [
+  {
+    type : 'input',
+    name : 'swaggerurl',
+    message : 'Enter swagger url ...(example: http://10.0.19.116:32133/swagger/v1/swagger.json)',    
+  },
+  {
+    type : 'input',
+    name : 'ctls',
+    message : 'Enter controller name (seperated by ,: example: /api/v0.1/Aisle)'  
+  },
+  {
+    type : 'input',
+    name : 'ns',
+    message : 'Enter namespace of files (optional)'  
+  },
+  {
+    type : 'input',
+    name : 'oFolder',
+    message : 'Enter the path of output folder (optional)'  
+  },
+
+];
 program.version('0.0.1', "-v, --version")                
         .description('Autorest generation with specific controller');
 
-program.command('gen  <swaggerUrl> [controllerName...]')
+program.command('gen')
        .alias('g')
        .description('Generate autorest')
        .action((swaggerUrl, controllerName) => {
-         gen(controllerName,swaggerUrl)
+         prompt(questions).then(answer=>{           
+           var swagger = answer.swaggerurl;
+           var ctls = answer.ctls.split(',');           
+           gen(ctls,swagger,answer.ns,answer.oFolder)
+         })
+         
        });        
 
-// program.on('--help', function(){
-//         console.log('');
-//         console.log('Examples:');
-//         console.log('');
-//         console.log('  $ custom-help --help');
-//         console.log('  $ custom-help -h');
-//     });
 program.parse(process.argv);
 if (!program.args.length) 
   program.help();
 
 
-function gen(ctls,swaggerUrl){  
+function gen(ctls,swaggerUrl,ns,outputFolder){  
     axios({
       method: 'get',
       url: swaggerUrl, //'http://10.0.19.116:32133/swagger/v1/swagger.json',
@@ -79,7 +102,14 @@ function gen(ctls,swaggerUrl){
           result.on('end',function(d){
             result.end();
           });          
-          exec('autorest --input-file=result.json  --csharp',function (error, stdout, stderr) {
+          var cmd = 'autorest --input-file=result.json --csharp  ';
+          if (ns){
+            cmd += `--namespace=${ns}  `;
+          }
+          if (outputFolder){
+            cmd += `--output-folder=${outputFolder} `;
+          }        
+          exec(cmd,function (error, stdout, stderr) {
             console.log('stdout: ' + stdout);
             console.log('stderr: ' + stderr);
             if (error !== null) {
