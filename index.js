@@ -7,6 +7,7 @@ var axios = require('axios');
 const { exec } = require('child_process');
 const program = require('commander');
 const { prompt} = require('inquirer');
+const target = require('./template');
 const questions = [
   {
     type : 'input',
@@ -58,10 +59,7 @@ function gen(ctls,swaggerUrl,ns,outputFolder){
     })
     .then((response)=>{  
       response.data.pipe(fs.createWriteStream('data.json'));
-      response.data.on('end',function(d){
-          var template = fs.readFileSync('template.json','utf-8');
-          var target = JSON.parse(template);
-
+      response.data.on('end',function(d){         
           fl.readFile('data.json').then(dt=>{
           for(var key in dt.paths){
 
