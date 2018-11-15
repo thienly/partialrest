@@ -2,7 +2,6 @@
 var _ = require('lodash');
 var fl = require('./readfile');
 var fs = require('fs');
-const argv = require('yargs').argv
 var axios = require('axios');
 const { exec } = require('child_process');
 const program = require('commander');
