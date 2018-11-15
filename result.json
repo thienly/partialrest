@@ -190,6 +190,228 @@
                     }
                 }
             }
+        },
+        "/api/v0.1/Alert/ValidateAlert": {
+            "post": {
+                "tags": [
+                    "Alert"
+                ],
+                "operationId": "Alert_ValidateAlert",
+                "consumes": [
+                    "application/json-patch+json",
+                    "application/json",
+                    "text/json",
+                    "application/*+json"
+                ],
+                "produces": [
+                    "text/plain",
+                    "application/json",
+                    "text/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "message",
+                        "in": "body",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/CheckAlertExistedModel"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/CheckAlertExistedModelResult"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v0.1/Alert/CreateAlert": {
+            "post": {
+                "tags": [
+                    "Alert"
+                ],
+                "operationId": "Alert_CreateAlert",
+                "consumes": [
+                    "application/json-patch+json",
+                    "application/json",
+                    "text/json",
+                    "application/*+json"
+                ],
+                "produces": [
+                    "text/plain",
+                    "application/json",
+                    "text/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "model",
+                        "in": "body",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/CreateAlertModel"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/CreateAlertModelResult"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v0.1/Alert/SearchAlert": {
+            "post": {
+                "tags": [
+                    "Alert"
+                ],
+                "operationId": "Alert_SearchAlert",
+                "consumes": [
+                    "application/json-patch+json",
+                    "application/json",
+                    "text/json",
+                    "application/*+json"
+                ],
+                "produces": [
+                    "text/plain",
+                    "application/json",
+                    "text/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "model",
+                        "in": "body",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/SearchAlertModel"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/SearchAlertModelResult"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v0.1/Alert/GetAlert": {
+            "post": {
+                "tags": [
+                    "Alert"
+                ],
+                "operationId": "Alert_GetAlert",
+                "consumes": [
+                    "application/json-patch+json",
+                    "application/json",
+                    "text/json",
+                    "application/*+json"
+                ],
+                "produces": [
+                    "text/plain",
+                    "application/json",
+                    "text/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "message",
+                        "in": "body",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/GetAlertModel"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/GetAlertModelResult"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v0.1/Alert/UpdateAlert": {
+            "put": {
+                "tags": [
+                    "Alert"
+                ],
+                "operationId": "Alert_UpdateAlert",
+                "consumes": [
+                    "application/json-patch+json",
+                    "application/json",
+                    "text/json",
+                    "application/*+json"
+                ],
+                "produces": [
+                    "text/plain",
+                    "application/json",
+                    "text/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "model",
+                        "in": "body",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/UpdateAlertModel"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/UpdateAlertModelResult"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v0.1/Alert/DeleteAlert": {
+            "post": {
+                "tags": [
+                    "Alert"
+                ],
+                "operationId": "Alert_DeleteAlert",
+                "consumes": [
+                    "application/json-patch+json",
+                    "application/json",
+                    "text/json",
+                    "application/*+json"
+                ],
+                "produces": [
+                    "text/plain",
+                    "application/json",
+                    "text/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "model",
+                        "in": "body",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/DeleteAlertModel"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/DeleteAlertModelResult"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -597,6 +819,425 @@
                 "WarehouseID": {
                     "format": "int64",
                     "type": "integer",
+                    "x-nullable": false
+                },
+                "ErrorMessages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "x-nullable": false
+                    },
+                    "x-nullable": false
+                },
+                "HasError": {
+                    "type": "boolean",
+                    "readOnly": true,
+                    "x-nullable": false
+                }
+            },
+            "x-nullable": false
+        },
+        "CheckAlertExistedModel": {
+            "type": "object",
+            "properties": {
+                "ClientId": {
+                    "format": "int64",
+                    "type": "integer",
+                    "x-nullable": false
+                },
+                "Sku": {
+                    "type": "string",
+                    "x-nullable": false
+                }
+            },
+            "x-nullable": false
+        },
+        "CheckAlertExistedModelResult": {
+            "type": "object",
+            "properties": {
+                "IsExist": {
+                    "type": "boolean",
+                    "x-nullable": false
+                },
+                "ErrorMessages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "x-nullable": false
+                    },
+                    "x-nullable": false
+                },
+                "HasError": {
+                    "type": "boolean",
+                    "readOnly": true,
+                    "x-nullable": false
+                }
+            },
+            "x-nullable": false
+        },
+        "CreateAlertModel": {
+            "type": "object",
+            "properties": {
+                "Sku": {
+                    "type": "string",
+                    "x-nullable": false
+                },
+                "ClientId": {
+                    "format": "int64",
+                    "type": "integer",
+                    "x-nullable": false
+                },
+                "AvgInterval": {
+                    "format": "int32",
+                    "type": "integer",
+                    "x-nullable": false
+                },
+                "AlertBefore": {
+                    "format": "int32",
+                    "type": "integer",
+                    "x-nullable": false
+                },
+                "Threshold": {
+                    "format": "int32",
+                    "type": "integer",
+                    "x-nullable": false
+                },
+                "CreatedBy": {
+                    "format": "int64",
+                    "type": "integer",
+                    "x-nullable": true
+                },
+                "CreatedDate": {
+                    "format": "date-time",
+                    "type": "string",
+                    "x-nullable": true
+                },
+                "UpdatedBy": {
+                    "format": "int64",
+                    "type": "integer",
+                    "x-nullable": true
+                },
+                "UpdatedDate": {
+                    "format": "date-time",
+                    "type": "string",
+                    "x-nullable": true
+                }
+            },
+            "x-nullable": false
+        },
+        "CreateAlertModelResult": {
+            "type": "object",
+            "properties": {
+                "ClientId": {
+                    "format": "int64",
+                    "type": "integer",
+                    "x-nullable": false
+                },
+                "Sku": {
+                    "type": "string",
+                    "x-nullable": false
+                },
+                "AvgInterval": {
+                    "format": "int32",
+                    "type": "integer",
+                    "x-nullable": false
+                },
+                "AlertBefore": {
+                    "format": "int32",
+                    "type": "integer",
+                    "x-nullable": false
+                },
+                "Threshold": {
+                    "format": "decimal",
+                    "type": "number",
+                    "x-nullable": false
+                },
+                "ErrorMessages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "x-nullable": false
+                    },
+                    "x-nullable": false
+                },
+                "HasError": {
+                    "type": "boolean",
+                    "readOnly": true,
+                    "x-nullable": false
+                }
+            },
+            "x-nullable": false
+        },
+        "SearchAlertModel": {
+            "type": "object",
+            "properties": {
+                "ClientId": {
+                    "format": "int64",
+                    "type": "integer",
+                    "x-nullable": true
+                },
+                "Sku": {
+                    "type": "string",
+                    "x-nullable": false
+                },
+                "PageIndex": {
+                    "format": "int32",
+                    "type": "integer",
+                    "x-nullable": false
+                },
+                "RecordsPerPage": {
+                    "format": "int32",
+                    "type": "integer",
+                    "x-nullable": false
+                },
+                "TotalPages": {
+                    "format": "int32",
+                    "type": "integer",
+                    "x-nullable": true
+                },
+                "TotalRecord": {
+                    "format": "int32",
+                    "type": "integer",
+                    "x-nullable": true
+                },
+                "Export": {
+                    "type": "boolean",
+                    "x-nullable": true
+                }
+            },
+            "x-nullable": false
+        },
+        "AlertModel": {
+            "type": "object",
+            "properties": {
+                "ClientId": {
+                    "format": "int64",
+                    "type": "integer",
+                    "x-nullable": false
+                },
+                "ClientName": {
+                    "type": "string",
+                    "x-nullable": false
+                },
+                "Sku": {
+                    "type": "string",
+                    "x-nullable": false
+                },
+                "AvgInterval": {
+                    "format": "int32",
+                    "type": "integer",
+                    "x-nullable": false
+                },
+                "AlertBefore": {
+                    "format": "int32",
+                    "type": "integer",
+                    "x-nullable": false
+                },
+                "Threshold": {
+                    "format": "decimal",
+                    "type": "number",
+                    "x-nullable": false
+                },
+                "CreatedDate": {
+                    "format": "date-time",
+                    "type": "string",
+                    "x-nullable": true
+                },
+                "CreatedBy": {
+                    "format": "int64",
+                    "type": "integer",
+                    "x-nullable": false
+                },
+                "UpdatedDate": {
+                    "format": "date-time",
+                    "type": "string",
+                    "x-nullable": true
+                },
+                "UpdatedBy": {
+                    "format": "int64",
+                    "type": "integer",
+                    "x-nullable": true
+                }
+            },
+            "x-nullable": false
+        },
+        "SearchAlertModelResult": {
+            "type": "object",
+            "properties": {
+                "Result": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/AlertModel"
+                    },
+                    "x-nullable": false
+                },
+                "PageIndex": {
+                    "format": "int32",
+                    "type": "integer",
+                    "x-nullable": false
+                },
+                "RecordsPerPage": {
+                    "format": "int32",
+                    "type": "integer",
+                    "x-nullable": false
+                },
+                "TotalPages": {
+                    "format": "int32",
+                    "type": "integer",
+                    "x-nullable": true
+                },
+                "TotalRecord": {
+                    "format": "int32",
+                    "type": "integer",
+                    "x-nullable": true
+                },
+                "Export": {
+                    "type": "boolean",
+                    "x-nullable": true
+                }
+            },
+            "x-nullable": false
+        },
+        "GetAlertModel": {
+            "type": "object",
+            "properties": {
+                "ClientId": {
+                    "format": "int64",
+                    "type": "integer",
+                    "x-nullable": false
+                },
+                "Sku": {
+                    "type": "string",
+                    "x-nullable": false
+                }
+            },
+            "x-nullable": false
+        },
+        "GetAlertModelResult": {
+            "type": "object",
+            "properties": {
+                "Item": {
+                    "$ref": "#/definitions/AlertModel"
+                },
+                "ErrorMessages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "x-nullable": false
+                    },
+                    "x-nullable": false
+                },
+                "HasError": {
+                    "type": "boolean",
+                    "readOnly": true,
+                    "x-nullable": false
+                }
+            },
+            "x-nullable": false
+        },
+        "UpdateAlertModel": {
+            "type": "object",
+            "properties": {
+                "ClientId": {
+                    "format": "int64",
+                    "type": "integer",
+                    "x-nullable": false
+                },
+                "Sku": {
+                    "type": "string",
+                    "x-nullable": false
+                },
+                "AvgInterval": {
+                    "format": "int32",
+                    "type": "integer",
+                    "x-nullable": false
+                },
+                "AlertBefore": {
+                    "format": "int32",
+                    "type": "integer",
+                    "x-nullable": false
+                },
+                "UpdatedBy": {
+                    "format": "int64",
+                    "type": "integer",
+                    "x-nullable": false
+                },
+                "UpdatedDate": {
+                    "format": "date-time",
+                    "type": "string",
+                    "x-nullable": true
+                }
+            },
+            "x-nullable": false
+        },
+        "UpdateAlertModelResult": {
+            "type": "object",
+            "properties": {
+                "ClientId": {
+                    "format": "int64",
+                    "type": "integer",
+                    "x-nullable": false
+                },
+                "Sku": {
+                    "type": "string",
+                    "x-nullable": false
+                },
+                "AvgInterval": {
+                    "format": "int32",
+                    "type": "integer",
+                    "x-nullable": false
+                },
+                "AlertBefore": {
+                    "format": "int32",
+                    "type": "integer",
+                    "x-nullable": false
+                },
+                "UpdatedBy": {
+                    "format": "int64",
+                    "type": "integer",
+                    "x-nullable": false
+                },
+                "UpdatedDate": {
+                    "format": "date-time",
+                    "type": "string",
+                    "x-nullable": true
+                },
+                "ErrorMessages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "x-nullable": false
+                    },
+                    "x-nullable": false
+                },
+                "HasError": {
+                    "type": "boolean",
+                    "readOnly": true,
+                    "x-nullable": false
+                }
+            },
+            "x-nullable": false
+        },
+        "DeleteAlertModel": {
+            "type": "object",
+            "properties": {
+                "ClientId": {
+                    "format": "int64",
+                    "type": "integer",
+                    "x-nullable": false
+                },
+                "Sku": {
+                    "type": "string",
+                    "x-nullable": false
+                }
+            },
+            "x-nullable": false
+        },
+        "DeleteAlertModelResult": {
+            "type": "object",
+            "properties": {
+                "IsSuccess": {
+                    "type": "boolean",
                     "x-nullable": false
                 },
                 "ErrorMessages": {

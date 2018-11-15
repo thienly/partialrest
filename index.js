@@ -8,11 +8,21 @@ const { exec } = require('child_process');
 const program = require('commander');
 const { prompt} = require('inquirer');
 const target = require('./template');
+var validUrl = require('valid-url');
+
 const questions = [
   {
     type : 'input',
     name : 'swaggerurl',
-    message : 'Enter swagger url ...(example: http://10.0.19.116:32133/swagger/v1/swagger.json)',    
+    message : 'Enter swagger url ...(example: http://localhost/swagger/v1/swagger.json)',    
+    validate: function(value) {
+      var pass = validUrl.isUri(value);
+      if (pass) {
+        return true;
+      }
+
+      return 'Please enter correct http url';
+    }
   },
   {
     type : 'input',
@@ -50,7 +60,6 @@ program.parse(process.argv);
 if (!program.args.length) 
   program.help();
 
-
 function gen(ctls,swaggerUrl,ns,outputFolder){  
     axios({
       method: 'get',
@@ -63,7 +72,11 @@ function gen(ctls,swaggerUrl,ns,outputFolder){
           fl.readFile('data.json').then(dt=>{
           for(var key in dt.paths){
 
-            if (_.toLower(key).indexOf(_.toLower(ctls[0])) != -1) {
+            var isExisted = _.findIndex(ctls, function(o) { 
+                return _.toLower(key).indexOf(_.toLower(o)) != -1;
+            });
+
+            if (isExisted != -1) {
               var value = dt.paths[key];
               var allModels = [];
               let n = {};
