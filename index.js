@@ -5,11 +5,11 @@ var fs = require('fs');
 var axios = require('axios');
 const { exec } = require('child_process');
 const program = require('commander');
-const { prompt} = require('inquirer');
-const target = require('./template');
+const inquirer = require('inquirer');
+const target = require('./template/template');
 var validUrl = require('valid-url');
 
-const questions = [
+const questions = [  
   {
     type : 'input',
     name : 'swaggerurl',
@@ -29,9 +29,27 @@ const questions = [
     message : 'Enter controller name (seperated by ,: example: /api/v0.1/Aisle)'  
   },
   {
-    type : 'input',
-    name : 'ns',
-    message : 'Enter namespace of files (optional)'  
+    type: 'list',
+    message: 'Select namespaces',
+    name: 'ns',
+    choices: [
+      new inquirer.Separator(' = Select namespaces = '),
+      {
+        name: 'Eton.Wms.ClientCentral.Services.RestClient'
+      },
+      {
+        name: 'Eton.Wms.Admin.Services.RestClient.NetCore'
+      },
+      {
+        name: 'Eton.Wms.Operations.Services.RestClient.NetCore'
+      }            
+    ],
+    validate: function(answer) {
+      if (answer.length < 1) {
+        return 'You must choose at least one topping.';
+      }
+      return true;
+    }
   },
   {
     type : 'input',
@@ -47,9 +65,9 @@ program.command('gen')
        .alias('g')
        .description('Generate autorest')
        .action((swaggerUrl, controllerName) => {
-         prompt(questions).then(answer=>{           
+        inquirer.prompt(questions).then(answer=>{           
            var swagger = answer.swaggerurl;
-           var ctls = answer.ctls.split(',');           
+           var ctls = answer.ctls.split(',');                    
            gen(ctls,swagger,answer.ns,answer.oFolder)
          })
          
