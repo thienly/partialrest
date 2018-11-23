@@ -6,7 +6,7 @@ var axios = require('axios');
 const { exec } = require('child_process');
 const program = require('commander');
 const inquirer = require('inquirer');
-const target = require('./template/template');
+const tl = require('./template/template');
 var validUrl = require('valid-url');
 
 const questions = [  
@@ -84,8 +84,10 @@ function gen(ctls,swaggerUrl,ns,outputFolder){
       responseType: 'stream'
     })
     .then((response)=>{  
+      if (ns.indexOf())
+      var target = tl[ns];
       response.data.pipe(fs.createWriteStream('data.json'));
-      response.data.on('end',function(d){         
+      response.data.on('end',function(d){                 
           fl.readFile('data.json').then(dt=>{
           for(var key in dt.paths){
 

@@ -1,2 +1,10 @@
-var str = "{\r\n    \"swagger\": \"2.0\",\r\n    \"info\": {\r\n      \"version\": \"v1\",\r\n      \"title\": \"Eton Wms Operations Services\"\r\n    },\r\n    \"basePath\": \"\/\",\r\n    \"paths\": {},\r\n    \"definitions\": {},\r\n    \"securityDefinitions\": {\r\n      \"Bearer\": {\r\n        \"name\": \"Authorization\",\r\n        \"in\": \"header\",\r\n        \"type\": \"apiKey\",\r\n        \"description\": \"JWT Authorization header using the Bearer scheme. Example: \\\"Authorization: Bearer {token}\\\"\"\r\n      }\r\n    }\r\n  }";
-module.exports = JSON.parse(str);
+var ops = "{\r\n    \"swagger\": \"2.0\",\r\n    \"info\": {\r\n      \"version\": \"v1\",\r\n      \"title\": \"Eton Wms Operations Services\"\r\n    },\r\n    \"basePath\": \"\/\",\r\n    \"paths\": {},\r\n    \"definitions\": {},\r\n    \"securityDefinitions\": {\r\n      \"Bearer\": {\r\n        \"name\": \"Authorization\",\r\n        \"in\": \"header\",\r\n        \"type\": \"apiKey\",\r\n        \"description\": \"JWT Authorization header using the Bearer scheme. Example: \\\"Authorization: Bearer {token}\\\"\"\r\n      }\r\n    }\r\n  }";
+var clientCentral = "{\r\n  \"swagger\": \"2.0\",\r\n  \"info\": {\r\n    \"version\": \"v1\",\r\n    \"title\": \"Eton Client Central Service\"\r\n  },\r\n  \"basePath\": \"\/\",\r\n  \"paths\": {},\r\n  \"definitions\": {},\r\n  \"securityDefinitions\": {\r\n    \"Bearer\": {\r\n      \"name\": \"Authorization\",\r\n      \"in\": \"header\",\r\n      \"type\": \"apiKey\",\r\n      \"description\": \"JWT Authorization header using the Bearer scheme. Example: \\\"Authorization: Bearer {token}\\\"\"\r\n    }\r\n  }\r\n}";
+var admin = "{\r\n  \"swagger\": \"2.0\",\r\n  \"info\": {\r\n    \"version\": \"v1\",\r\n    \"title\": \"Eton Wms Admin Services\"\r\n  },\r\n  \"basePath\": \"\/\",\r\n  \"paths\": {},\r\n  \"definitions\": {},\r\n  \"securityDefinitions\": {\r\n    \"Bearer\": {\r\n      \"name\": \"Authorization\",\r\n      \"in\": \"header\",\r\n      \"type\": \"apiKey\",\r\n      \"description\": \"JWT Authorization header using the Bearer scheme. Example: \\\"Authorization: Bearer {token}\\\"\"\r\n    }\r\n  }\r\n}";
+var data ={};
+
+data["Eton.Wms.Operations.Services.RestClient.NetCore"] = JSON.parse(ops);
+data["Eton.Wms.ClientCentral.Services.RestClient"] = JSON.parse(clientCentral);
+data["Eton.Wms.Admin.Services.RestClient.NetCore"] = JSON.parse(admin);
+
+module.exports = data;
